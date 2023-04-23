@@ -27,7 +27,7 @@ def process1(shm, queue_processo_1: Queue):
                 lastShmValue = terminalMessage1 #reseta o último valor da shm.
     
 
-def process2(shm, queue_processo_2):
+def process2(shm, queue_processo_2: Queue):
     # pega o último valor da shared memory. serve para comparar se ela foi alterada.
     lastShmValue = shm.value.decode()
     # fica comparando o valor da shm atual com o último valor alterado da shared memory
