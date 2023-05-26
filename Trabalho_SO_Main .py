@@ -36,5 +36,3 @@ if __name__ == '__main__':
     system('cls') #limpa a tela
     mainMenu()
     
-    
-#n sei se pode separar cada função em cada arquivo, então vai esse com 200 linha mesmo kkkkk (agonia)
