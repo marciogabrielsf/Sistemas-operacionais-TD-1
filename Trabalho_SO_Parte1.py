@@ -1,6 +1,7 @@
 from multiprocessing import Lock, Process, Array, Queue
 from os import system
 
+
 def process1(shm, queue_processo_1: Queue, lock):
     
     # inicia um loop
@@ -44,8 +45,7 @@ def process2(shm, queue_processo_2: Queue, lock):
                     shm.value = terminalMessage2.encode(); #pega o que estava na fila (que foi recebido do terminal), encoda em bytecode e coloca na shm.
                     print(' Processo 2 - Enviou:', terminalMessage2) #print para avisar que o processo colocou uma mensagem na shm
     
-
-if __name__ == '__main__':
+def taskOneMenu():
     # create shared memory
     shm = Array('c',2048,  lock=True)
     
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     system('cls') #limpa a tela
     while(True):
 
-        print('Qual processo voce deseja Selecionar? \n 1- Processo 1 \n 2- Processo 2 \n 0- Fechar')
+        print('Qual processo voce deseja Selecionar? \n 1- Processo 1 \n 2- Processo 2 \n 0- Voltar')
         option = input()
         match option: #switch case para o menu
             case '1':
@@ -84,6 +84,7 @@ if __name__ == '__main__':
                 system('cls')
                 queue_processo_2.put(message2) #coloca o que o user digitou na fila para ser lido lá no processo
             case '0':
+                system('cls')
                 break
                 
             case _:
@@ -93,9 +94,17 @@ if __name__ == '__main__':
                 
 
 
-    # finalizar os dois processos
+    # acaba com o processo
     p1.terminate()
     p2.terminate()
+    
+    # espera os processos acabarem
+    p1.join()
+    p2.join()
+    
+    # por fim mata os processos
+    p1.close()
+    p2.close()
 
-    # limpar a shared memory
+    # limpa a shared memory
     shm.value = b''
